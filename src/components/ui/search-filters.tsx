@@ -148,7 +148,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               <SelectValue placeholder="Any" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Any</SelectItem>
+              <SelectItem value="any">Any</SelectItem>
               <SelectItem value="1">1 Bedroom</SelectItem>
               <SelectItem value="2">2 Bedrooms</SelectItem>
               <SelectItem value="3">3+ Bedrooms</SelectItem>
