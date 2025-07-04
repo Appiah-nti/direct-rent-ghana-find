@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +52,14 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				// Ghana-specific colors
+				ghana: {
+					gold: 'hsl(var(--ghana-gold))',
+					green: 'hsl(var(--ghana-green))',
+					red: 'hsl(var(--ghana-red))',
+					cream: 'hsl(var(--warm-cream))',
+					brown: 'hsl(var(--rich-brown))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
