@@ -5,6 +5,8 @@ export interface Property {
   location: string;
   type: string;
   images: string[];
+  latitude: number;
+  longitude: number;
   isVerified: boolean;
   isFeatured: boolean;
   bedrooms?: number;
@@ -30,6 +32,8 @@ export const mockProperties: Property[] = [
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800",
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800",
     ],
+    latitude: 5.6500,
+    longitude: -0.1667,
     isVerified: true,
     isFeatured: true,
     bedrooms: 1,
@@ -53,6 +57,8 @@ export const mockProperties: Property[] = [
       "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800",
       "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=800",
     ],
+    latitude: 5.6698,
+    longitude: -0.0166,
     isVerified: false,
     isFeatured: false,
     bedrooms: 1,
@@ -75,6 +81,8 @@ export const mockProperties: Property[] = [
     images: [
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800",
     ],
+    latitude: 5.6037,
+    longitude: -0.1000,
     isVerified: true,
     isFeatured: false,
     bedrooms: 1,
@@ -98,6 +106,8 @@ export const mockProperties: Property[] = [
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800",
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800",
     ],
+    latitude: 5.5833,
+    longitude: -0.1833,
     isVerified: true,
     isFeatured: true,
     bedrooms: 1,
@@ -120,6 +130,8 @@ export const mockProperties: Property[] = [
     images: [
       "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800",
     ],
+    latitude: 5.5333,
+    longitude: -0.2500,
     isVerified: false,
     isFeatured: false,
     bedrooms: 1,
@@ -142,6 +154,8 @@ export const mockProperties: Property[] = [
       "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=800",
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800",
     ],
+    latitude: 5.6037,
+    longitude: -0.2370,
     isVerified: true,
     isFeatured: true,
     bedrooms: 2,

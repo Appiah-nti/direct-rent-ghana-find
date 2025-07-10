@@ -1,17 +1,21 @@
 import { PropertyCard } from "@/components/ui/property-card";
 import { SearchFilters, SearchFilters as SearchFiltersType } from "@/components/ui/search-filters";
+import { PropertyMap } from "@/components/PropertyMap";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockProperties, featuredProperties } from "@/data/mock-properties";
 import { useState } from "react";
-import { Search, MapPin, Home, CheckCircle } from "lucide-react";
+import { Search, MapPin, Home, CheckCircle, Grid, Map } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 
 const Index = () => {
   const [filteredProperties, setFilteredProperties] = useState(mockProperties);
   const [searchApplied, setSearchApplied] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+  const [viewType, setViewType] = useState<'grid' | 'map'>('grid');
 
   const handleSearch = (filters: SearchFiltersType) => {
     let filtered = mockProperties;
@@ -53,31 +57,38 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient opacity-90"></div>
+      {/* Hero Section - Apartments.com Style */}
+      <section className="relative py-32 overflow-hidden bg-gradient-to-br from-ghana-green via-primary to-ghana-gold">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
           style={{ backgroundImage: `url(${heroImage})` }}
         ></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative container mx-auto px-4 text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Find Your Perfect Room in
-            <span className="block text-primary-glow">Ghana</span>
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight">
+            Discover Your New Home
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Connect directly with verified landlords. No agents, no hidden fees. 
-            Discover affordable rooms across Ghana's major cities.
+          <p className="text-xl md:text-2xl mb-12 max-w-2xl mx-auto font-light">
+            Helping thousands of renters find their perfect fit.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              <Search className="w-5 h-5 mr-2" />
-              Start Searching
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 bg-white/10 text-white border-white/30 hover:bg-white/20">
-              <Home className="w-5 h-5 mr-2" />
-              Post Property
-            </Button>
+          
+          {/* Central Search Bar */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white rounded-full p-2 shadow-2xl">
+              <div className="flex items-center">
+                <div className="flex-1 px-6 py-4">
+                  <input 
+                    type="text" 
+                    placeholder="Enter location (e.g., East Legon, Accra)"
+                    className="w-full text-lg text-foreground placeholder-muted-foreground border-none outline-none bg-transparent"
+                  />
+                </div>
+                <Button size="lg" className="rounded-full px-8 hero-gradient text-white font-semibold">
+                  <Search className="w-5 h-5 mr-2" />
+                  Search
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -135,16 +146,31 @@ const Index = () => {
               </section>
             )}
 
-            {/* All Properties */}
+            {/* Properties with Map/Grid Toggle */}
             <section>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <span className="w-2 h-8 bg-secondary rounded"></span>
-                  {searchApplied ? "Search Results" : "All Properties"}
-                </h2>
-                <Badge variant="outline" className="text-secondary border-secondary">
-                  {filteredProperties.length} Properties
-                </Badge>
+                <div className="flex items-center gap-4">
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <span className="w-2 h-8 bg-secondary rounded"></span>
+                    {searchApplied ? "Search Results" : "Explore Rentals in Accra, Ghana"}
+                  </h2>
+                  <Badge variant="outline" className="text-secondary border-secondary">
+                    {filteredProperties.length} Properties
+                  </Badge>
+                </div>
+                
+                <Tabs value={viewType} onValueChange={(value) => setViewType(value as 'grid' | 'map')}>
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="grid" className="flex items-center gap-2">
+                      <Grid className="w-4 h-4" />
+                      Grid
+                    </TabsTrigger>
+                    <TabsTrigger value="map" className="flex items-center gap-2">
+                      <Map className="w-4 h-4" />
+                      Map
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
 
               {filteredProperties.length === 0 ? (
@@ -158,11 +184,53 @@ const Index = () => {
                   </CardContent>
                 </Card>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredProperties.map((property) => (
-                    <PropertyCard key={property.id} property={property} />
-                  ))}
-                </div>
+                <Tabs value={viewType} className="w-full">
+                  <TabsContent value="grid" className="mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {filteredProperties.map((property) => (
+                        <PropertyCard 
+                          key={property.id} 
+                          property={property}
+                          onSelect={() => setSelectedProperty(property.id)}
+                          isSelected={selectedProperty === property.id}
+                        />
+                      ))}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="map" className="mt-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="space-y-4 max-h-[500px] overflow-y-auto">
+                        {filteredProperties.map((property) => (
+                          <PropertyCard 
+                            key={property.id} 
+                            property={property}
+                            variant="compact"
+                            onSelect={() => setSelectedProperty(property.id)}
+                            isSelected={selectedProperty === property.id}
+                          />
+                        ))}
+                      </div>
+                      <div className="sticky top-4">
+                        <PropertyMap 
+                          properties={filteredProperties.map(p => ({
+                            id: p.id,
+                            title: p.title,
+                            price: p.price,
+                            location: p.location,
+                            type: p.type,
+                            bedrooms: p.bedrooms || 1,
+                            latitude: p.latitude,
+                            longitude: p.longitude,
+                            image: p.images[0]
+                          }))}
+                          selectedProperty={selectedProperty}
+                          onPropertySelect={setSelectedProperty}
+                        />
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               )}
             </section>
           </div>
